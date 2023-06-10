@@ -12,6 +12,8 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
+        $arr_suggestion = array();
+
         // ENTREE
         //--
 
@@ -41,10 +43,23 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price1_11 = 12.0;
         $name1_12 = "Tarte fine aux asperges, jambon de Serano"; // SUGGESTION
         $price1_12 = 11.0;
-        $name1_13 = "Oeuf cocotte savoyard";// SUGGESTION
+        $name1_13 = "Oeuf cocotte savoyard"; // SUGGESTION
         $price1_13 = 8.0;
-        $name1_14 = "Croustillant de brie à la tomate séchée";// SUGGESTION
+        $name1_14 = "Croustillant de brie à la tomate séchée"; // SUGGESTION
         $price1_14 = 8.5;
+
+        //Suggestions push
+        //--
+        $arr_suggestion = [];
+        array_push(
+            $arr_suggestion,
+            $name1_12,
+            $price1_12,
+            $name1_13,
+            $price1_13,
+            $name1_14,
+            $price1_14
+        );
 
         $nbrOfEntrees = 15;
 
@@ -52,7 +67,12 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
             $item = new Item();
             $item->setName(${'name1_' . $i});
             $item->setPrice(${'price1_' . $i});
+            // ENTREE
             $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_1));
+            if (in_array($item->getName(), $arr_suggestion)) {
+                // SUGGESTION
+                $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_4));
+            }
             $manager->persist($item);
         }
 
@@ -83,26 +103,48 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price2_10 = 24.0;
         $name2_11 = "Croustillant de saumon aux épinards, linguines";
         $price2_11 = 22.0;
-        $name2_12 = "Tête de veau, sauce gribiche";// SUGGESTION
+        $name2_12 = "Tête de veau, sauce gribiche"; // SUGGESTION
         $price2_12 = 22.0;
-        $name2_13 = "Steack de thon rouge, concassés de tomate";// SUGGESTION
+        $name2_13 = "Steack de thon rouge, concassés de tomate"; // SUGGESTION
         $price2_13 = 28.0;
-        $name2_14 = "Aile de raie aux câpres";// SUGGESTION
+        $name2_14 = "Aile de raie aux câpres"; // SUGGESTION
         $price2_14 = 24.0;
-        $name2_15 = "Poélée de palourdes, linguines";// SUGGESTION
+        $name2_15 = "Poélée de palourdes, linguines"; // SUGGESTION
         $price2_15 = 24.0;
-        $name2_16 = "Brandade de morue";// SUGGESTION
+        $name2_16 = "Brandade de morue"; // SUGGESTION
         $price2_16 = 19.0;
-        $name2_17 = "Pavé de lieu, sauce colombo";// SUGGESTION
+        $name2_17 = "Pavé de lieu, sauce colombo"; // SUGGESTION
         $price2_17 = 17.0;
 
         $nbrOfPlats = 18;
+
+        $arr_suggestion = [];
+        array_push(
+            $arr_suggestion,
+            $name2_12,
+            $price2_12,
+            $name2_13,
+            $price2_13,
+            $name2_14,
+            $price2_14,
+            $name2_15,
+            $price2_15,
+            $name2_16,
+            $price2_16,
+            $name2_17,
+            $price2_17
+        );
 
         for ($i = 0; $i < $nbrOfPlats; $i++) {
             $item = new Item();
             $item->setName(${'name2_' . $i});
             $item->setPrice(${'price2_' . $i});
+            // PLATS
             $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_2));
+            if (in_array($item->getName(), $arr_suggestion)) {
+                // Suggestion
+                $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_4));
+            }
             $manager->persist($item);
         }
 
@@ -138,37 +180,27 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
 
         $nbrOfDesserts = 13;
 
+        $arr_suggestion = [];
+        array_push(
+            $arr_suggestion,
+            $name3_10,
+            $price3_10,
+            $name3_11,
+            $price3_11,
+            $name3_12,
+            $price3_12
+        );
+
         for ($i = 0; $i < $nbrOfDesserts; $i++) {
             $item = new Item();
             $item->setName(${'name3_' . $i});
             $item->setPrice(${'price3_' . $i});
+            // DESSERTS
             $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_3));
-            $manager->persist($item);
-        }
-
-        // SUGGESTIONS
-        //--
-
-        $arr_suggestion = [
-            $name1_12, $price1_12,
-            $name1_13, $price1_13,
-            $name1_14, $price1_14,
-            $name2_12, $price2_12,
-            $name2_13, $price2_13,
-            $name2_14, $price2_14,
-            $name2_15, $price2_15,
-            $name2_16, $price2_16,
-            $name2_17, $price2_17,
-            $name3_10, $price3_10,
-            $name3_11, $price3_11,
-            $name3_12, $price3_12,
-        ];
-
-        for($i = 0; $i < count($arr_suggestion); $i += 2) {
-            $item = new Item();
-            $item->setName($arr_suggestion[$i]);
-            $item->setPrice($arr_suggestion[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_4));
+            if (in_array($item->getName(), $arr_suggestion)) {
+                // SUGGESTION
+                $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_4));
+            }
             $manager->persist($item);
         }
 
@@ -185,6 +217,23 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price4_3 = 7.9;
         $name4_4 = "La Tropicale"; // INCONTOURNABLE
         $price4_4 = 7.9;
+
+        $arr_incontournable = [];
+        array_push(
+            $arr_incontournable,
+            $name4_0,
+            $price4_0,
+            $name4_1,
+            $price4_1,
+            $name4_2,
+            $price4_2,
+            $name4_3,
+            $price4_3,
+            $name4_4,
+            $price4_4
+        );
+
+
         $name4_5 = "La Mars"; // INNATENDU
         $price4_5 = 8.9;
         $name4_6 = "La Coupe M&M's"; // INNATENDU
@@ -197,14 +246,46 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price4_9 = 8.9;
         $name4_10 = "La Bounty"; // INNATENDU
         $price4_10 = 8.9;
+
+        $arr_innatendu = [];
+        array_push(
+            $arr_innatendu,
+            $name4_5,
+            $price4_5,
+            $name4_6,
+            $price4_6,
+            $name4_7,
+            $price4_7,
+            $name4_8,
+            $price4_8,
+            $name4_9,
+            $price4_9,
+            $name4_10,
+            $price4_10
+        );
+
         $name4_11 = "L'After-Eight"; // INTERDITE
         $price4_11 = 9.9;
-        $name4_12 = "La Colonel";// INTERDITE
+        $name4_12 = "La Colonel"; // INTERDITE
         $price4_12 = 9.9;
-        $name4_13 = "L'Hawaï";// INTERDITE
+        $name4_13 = "L'Hawaï"; // INTERDITE
         $price4_13 = 9.9;
-        $name4_14 = "La Normande";// INTERDITE
+        $name4_14 = "La Normande"; // INTERDITE
         $price4_14 = 9.9;
+
+        $arr_interdite = [];
+        array_push(
+            $arr_interdite,
+            $name4_11,
+            $price4_11,
+            $name4_12,
+            $price4_12,
+            $name4_13,
+            $price4_13,
+            $name4_14,
+            $price4_14
+        );
+
         $name4_15 = "Bimbo";
         $price4_15 = 4.9;
         $name4_16 = "Brownies";
@@ -248,94 +329,55 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $name4_35 = "Pomme verte"; // SORBET
         $price4_35 = 4.9;
 
+        $arr_sorbet = [];
+        array_push(
+            $arr_sorbet,
+            $name4_28,
+            $price4_28,
+            $name4_29,
+            $price4_29,
+            $name4_30,
+            $price4_30,
+            $name4_31,
+            $price4_31,
+            $name4_32,
+            $price4_32,
+            $name4_33,
+            $price4_33,
+            $name4_34,
+            $price4_34,
+            $name4_35,
+            $price4_35
+        );
+
+
         $nbrOfGlaces = 36;
 
         for ($i = 0; $i < $nbrOfGlaces; $i++) {
             $item = new Item();
             $item->setName(${'name4_' . $i});
             $item->setPrice(${'price4_' . $i});
+            // GLACES
             $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_5));
+            if (in_array($item->getName(), $arr_incontournable)) {
+                // INCONTORNABLES
+                $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_6));
+            }
+            if (in_array($item->getName(), $arr_innatendu)) {
+                // INATTENDUS
+                $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_7));
+            }
+            if (in_array($item->getName(), $arr_interdite)) {
+                // INTERDITES
+                $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_8));
+            }
+            if (in_array($item->getName(), $arr_sorbet)) {
+                // SORBETS
+                $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_9));
+            }
             $manager->persist($item);
         }
 
-        // INCONTORNABLES
-        //--
-
-        $arr_incontournable = [
-            $name4_0, $price4_0,
-            $name4_1, $price4_1,
-            $name4_2, $price4_2,
-            $name4_3, $price4_3,
-            $name4_4, $price4_4,
-        ];
-
-        for($i = 0; $i < count($arr_incontournable); $i += 2) {
-            $item = new Item();
-            $item->setName($arr_incontournable[$i]);
-            $item->setPrice($arr_incontournable[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_6));
-            $manager->persist($item);
-        }
-
-        // INATTENDUS
-        //--
-
-        $arr_inattendu = [
-            $name4_5, $price4_5,
-            $name4_6, $price4_6,
-            $name4_7, $price4_7,
-            $name4_8, $price4_8,
-            $name4_9, $price4_9,
-            $name4_10, $price4_10,
-        ];
-
-        for($i = 0; $i < count($arr_inattendu); $i += 2) {
-            $item = new Item();
-            $item->setName($arr_inattendu[$i]);
-            $item->setPrice($arr_inattendu[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_7));
-            $manager->persist($item);
-        }
-
-        // INTERDITES
-        //--
-
-        $arr_interdite = [
-            $name4_11, $price4_11,
-            $name4_12, $price4_12,
-            $name4_13, $price4_13,
-            $name4_14, $price4_14,
-        ];
-
-        for($i = 0; $i < count($arr_interdite); $i += 2) {
-            $item = new Item();
-            $item->setName($arr_interdite[$i]);
-            $item->setPrice($arr_interdite[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_8));
-            $manager->persist($item);
-        }
-
-        // SORBETS
-        //--
-
-        $arr_sorbet = [
-            $name4_28, $price4_28,
-            $name4_29, $price4_29,
-            $name4_30, $price4_30,
-            $name4_31, $price4_31,
-            $name4_32, $price4_32,
-            $name4_33, $price4_33,
-            $name4_34, $price4_34,
-            $name4_35, $price4_35,
-        ];
-
-        for($i = 0; $i < count($arr_sorbet); $i += 2) {
-            $item = new Item();
-            $item->setName($arr_sorbet[$i]);
-            $item->setPrice($arr_sorbet[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_9));
-            $manager->persist($item);
-        }
 
         //BOISSONS
         //--
@@ -346,6 +388,18 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price5_1 = 6.5;
         $name5_2 = 'Virgin Cherry Banane'; // COCKTAILS // SANSALCOOL
         $price5_2 = 6.5;
+
+        $arr_sansalcool = [];
+        array_push(
+            $arr_sansalcool,
+            $name5_0,
+            $price5_0,
+            $name5_1,
+            $price5_1,
+            $name5_2,
+            $price5_2
+        );
+
         $name5_3 = 'Pina colada'; // COCKTAILS // ALCOOL
         $price5_3 = 8.5;
         $name5_4 = 'Blue Lagoon'; // COCKTAILS // ALCOOL
@@ -368,72 +422,78 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $name5_12 = 'Schtroumpf'; // COCKTAILS // ALCOOL
         $price5_12 = 8.5;
 
-        // COCKTAILS
-        //--
+        $arr_alcool = [];
+        array_push(
+            $arr_alcool,
+            $name5_3,
+            $price5_3,
+            $name5_4,
+            $price5_4,
+            $name5_5,
+            $price5_5,
+            $name5_6,
+            $price5_6,
+            $name5_7,
+            $price5_7,
+            $name5_8,
+            $price5_8,
+            $name5_9,
+            $price5_9,
+            $name5_10,
+            $price5_10,
+            $name5_11,
+            $price5_11,
+            $name5_12,
+            $price5_12
+        );
 
-        $arr_cocktail = [
-            $name5_0, $price5_0,
-            $name5_1, $price5_1,
-            $name5_2, $price5_2,
-            $name5_3, $price5_3,
-            $name5_4, $price5_4,
-            $name5_5, $price5_5,
-            $name5_6, $price5_6,
-            $name5_7, $price5_7,
-            $name5_8, $price5_8,
-            $name5_9, $price5_9,
-            $name5_10, $price5_10,
-            $name5_11, $price5_11,
-            $name5_12, $price5_12,
-        ];
+        $arr_cocktail = [];
+        array_push(
+            $arr_cocktail,
+            $name5_0,
+            $price5_0,
+            $name5_1,
+            $price5_1,
+            $name5_2,
+            $price5_2,
+            $name5_3,
+            $price5_3,
+            $name5_4,
+            $price5_4,
+            $name5_5,
+            $price5_5,
+            $name5_6,
+            $price5_6,
+            $name5_7,
+            $price5_7,
+            $name5_8,
+            $price5_8,
+            $name5_9,
+            $price5_9,
+            $name5_10,
+            $price5_10,
+            $name5_11,
+            $price5_11,
+            $name5_12,
+            $price5_12
+        );
 
-        for($i = 0; $i < count($arr_cocktail); $i += 2) {
+        for ($i = 0; $i < count($arr_cocktail); $i += 2) {
             $item = new Item();
             $item->setName($arr_cocktail[$i]);
             $item->setPrice($arr_cocktail[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_11)); //COCKTAIL
-            $manager->persist($item);
-        }
-
-        // SANS ALCOOL
-        //--
-
-        $arr_sansalcool = [
-            $name5_0, $price5_0,
-            $name5_1, $price5_1,
-            $name5_2, $price5_2,
-        ];
-
-        for($i = 0; $i < count($arr_sansalcool); $i += 2) {
-            $item = new Item();
-            $item->setName($arr_sansalcool[$i]);
-            $item->setPrice($arr_sansalcool[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_12)); //SANSALCOOL
-            $manager->persist($item);
-        }
-
-
-        // ALCOOL
-        //--
-
-        $arr_alcool = [
-            $name5_3, $price5_3,
-            $name5_4, $price5_4,
-            $name5_5, $price5_5,
-            $name5_6, $price5_6,
-            $name5_7, $price5_7,
-            $name5_8, $price5_8,
-            $name5_9, $price5_9,
-            $name5_10, $price5_10,
-            $name5_11, $price5_11,
-            $name5_12, $price5_12,
-        ];
-
-        for($i = 0; $i < count($arr_alcool); $i += 2) {
-            $item = new Item();
-            $item->setName($arr_alcool[$i]);
-            $item->setPrice($arr_alcool[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_13)); //ALCOOL
+            // BOISSON
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            // COCKTAILS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_11));
+            if (in_array($item->getName(), $arr_sansalcool)) {
+                // SANSALCOOL
+                $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_12));
+            }
+            if (in_array($item->getName(), $arr_alcool)) {
+                // ALCOOL
+                $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_13));
+            }
             $manager->persist($item);
         }
 
@@ -458,20 +518,30 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
 
 
         $arr_bieres = [
-            $name5_13, $price5_13,
-            $name5_14, $price5_14,
-            $name5_15, $price5_15,
-            $name5_16, $price5_16,
-            $name5_17, $price5_17,
-            $name5_18, $price5_18,
-            $name5_19, $price5_19,
+            $name5_13,
+            $price5_13,
+            $name5_14,
+            $price5_14,
+            $name5_15,
+            $price5_15,
+            $name5_16,
+            $price5_16,
+            $name5_17,
+            $price5_17,
+            $name5_18,
+            $price5_18,
+            $name5_19,
+            $price5_19,
         ];
 
-        for($i = 0; $i < count($arr_bieres); $i += 2) {
+        for ($i = 0; $i < count($arr_bieres); $i += 2) {
             $item = new Item();
             $item->setName($arr_bieres[$i]);
             $item->setPrice($arr_bieres[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_14)); //BIERE
+            // BOISSON
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            //BIERE
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_14));
             $manager->persist($item);
         }
 
@@ -493,19 +563,28 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
 
 
         $arr_whiskies = [
-            $name5_20, $price5_20,
-            $name5_21, $price5_21,
-            $name5_22, $price5_22,
-            $name5_23, $price5_23,
-            $name5_25, $price5_25,
-            $name5_26, $price5_26,
+            $name5_20,
+            $price5_20,
+            $name5_21,
+            $price5_21,
+            $name5_22,
+            $price5_22,
+            $name5_23,
+            $price5_23,
+            $name5_25,
+            $price5_25,
+            $name5_26,
+            $price5_26,
         ];
 
-        for($i = 0; $i < count($arr_whiskies); $i += 2) {
+        for ($i = 0; $i < count($arr_whiskies); $i += 2) {
             $item = new Item();
             $item->setName($arr_whiskies[$i]);
             $item->setPrice($arr_whiskies[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_18)); //WHISKIES
+            // BOISSON
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            //WHISKIES
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_18));
             $manager->persist($item);
         }
 
@@ -534,22 +613,34 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
 
 
         $arr_aperitifs = [
-            $name5_27, $price5_27,
-            $name5_28, $price5_28,
-            $name5_29, $price5_29,
-            $name5_30, $price5_30,
-            $name5_31, $price5_31,
-            $name5_32, $price5_32,
-            $name5_33, $price5_33,
-            $name5_34, $price5_34,
-            $name5_35, $price5_35,
+            $name5_27,
+            $price5_27,
+            $name5_28,
+            $price5_28,
+            $name5_29,
+            $price5_29,
+            $name5_30,
+            $price5_30,
+            $name5_31,
+            $price5_31,
+            $name5_32,
+            $price5_32,
+            $name5_33,
+            $price5_33,
+            $name5_34,
+            $price5_34,
+            $name5_35,
+            $price5_35,
         ];
 
-        for($i = 0; $i < count($arr_aperitifs); $i += 2) {
+        for ($i = 0; $i < count($arr_aperitifs); $i += 2) {
             $item = new Item();
             $item->setName($arr_aperitifs[$i]);
             $item->setPrice($arr_aperitifs[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_26)); //APERITIFS
+            // BOISSON
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            // APERITIFS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_26));
             $manager->persist($item);
         }
 
@@ -586,27 +677,43 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
 
 
         $arr_softs = [
-            $name5_36, $price5_36,
-            $name5_37, $price5_37,
-            $name5_38, $price5_38,
-            $name5_39, $price5_39,
-            $name5_40, $price5_40,
-            $name5_41, $price5_41,
-            $name5_42, $price5_42,
-            $name5_43, $price5_43,
-            $name5_44, $price5_44,
-            $name5_45, $price5_45,
-            $name5_47, $price5_47,
-            $name5_48, $price5_48,
-            $name5_49, $price5_49,
+            $name5_36,
+            $price5_36,
+            $name5_37,
+            $price5_37,
+            $name5_38,
+            $price5_38,
+            $name5_39,
+            $price5_39,
+            $name5_40,
+            $price5_40,
+            $name5_41,
+            $price5_41,
+            $name5_42,
+            $price5_42,
+            $name5_43,
+            $price5_43,
+            $name5_44,
+            $price5_44,
+            $name5_45,
+            $price5_45,
+            $name5_47,
+            $price5_47,
+            $name5_48,
+            $price5_48,
+            $name5_49,
+            $price5_49,
         ];
 
 
-        for($i = 0; $i < count($arr_softs); $i += 2) {
+        for ($i = 0; $i < count($arr_softs); $i += 2) {
             $item = new Item();
             $item->setName($arr_softs[$i]);
             $item->setPrice($arr_softs[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_20)); //SOFTS
+            // BOISSON
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            // SOFTS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_20));
             $manager->persist($item);
         }
 
@@ -630,20 +737,30 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price5_63 = 2.5;
 
         $arr_chaudes = [
-            $name5_57, $price5_57,
-            $name5_58, $price5_58,
-            $name5_59, $price5_59,
-            $name5_60, $price5_60,
-            $name5_61, $price5_61,
-            $name5_62, $price5_62,
-            $name5_63, $price5_63,
+            $name5_57,
+            $price5_57,
+            $name5_58,
+            $price5_58,
+            $name5_59,
+            $price5_59,
+            $name5_60,
+            $price5_60,
+            $name5_61,
+            $price5_61,
+            $name5_62,
+            $price5_62,
+            $name5_63,
+            $price5_63,
         ];
-        
-        for($i = 0; $i < count($arr_chaudes); $i += 2) {
+
+        for ($i = 0; $i < count($arr_chaudes); $i += 2) {
             $item = new Item();
             $item->setName($arr_chaudes[$i]);
             $item->setPrice($arr_chaudes[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_21)); //BOISSONS CHAUDES
+            // BOISSON
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            // BOISSONS CHAUDES
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_21));
             $manager->persist($item);
         }
 
@@ -676,26 +793,41 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price5_75 = 8.5;
 
         $arr_digestifs = [
-            $name5_64, $price5_64,
-            $name5_65, $price5_65,
-            $name5_66, $price5_66,
-            $name5_67, $price5_67,
-            $name5_68, $price5_68,
-            $name5_69, $price5_69,
-            $name5_70, $price5_70,
-            $name5_71, $price5_71,
-            $name5_72, $price5_72,
-            $name5_73, $price5_73,
-            $name5_74, $price5_74,
-            $name5_75, $price5_75,
+            $name5_64,
+            $price5_64,
+            $name5_65,
+            $price5_65,
+            $name5_66,
+            $price5_66,
+            $name5_67,
+            $price5_67,
+            $name5_68,
+            $price5_68,
+            $name5_69,
+            $price5_69,
+            $name5_70,
+            $price5_70,
+            $name5_71,
+            $price5_71,
+            $name5_72,
+            $price5_72,
+            $name5_73,
+            $price5_73,
+            $name5_74,
+            $price5_74,
+            $name5_75,
+            $price5_75,
         ];
 
 
-        for($i = 0; $i < count($arr_digestifs); $i += 2) {
+        for ($i = 0; $i < count($arr_digestifs); $i += 2) {
             $item = new Item();
             $item->setName($arr_digestifs[$i]);
             $item->setPrice($arr_digestifs[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_17)); //DIGESTIFS
+            // BOISSON
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            // DIGESTIFS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_17));
             $manager->persist($item);
         }
 
@@ -717,19 +849,28 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
 
 
         $arr_rhums = [
-            $name5_76, $price5_76,
-            $name5_77, $price5_77,
-            $name5_78, $price5_78,
-            $name5_79, $price5_79,
-            $name5_80, $price5_80,
-            $name5_81, $price5_81,
+            $name5_76,
+            $price5_76,
+            $name5_77,
+            $price5_77,
+            $name5_78,
+            $price5_78,
+            $name5_79,
+            $price5_79,
+            $name5_80,
+            $price5_80,
+            $name5_81,
+            $price5_81,
         ];
 
-        for($i = 0; $i < count($arr_rhums); $i += 2) {
+        for ($i = 0; $i < count($arr_rhums); $i += 2) {
             $item = new Item();
             $item->setName($arr_rhums[$i]);
             $item->setPrice($arr_rhums[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_19)); //RHUMS
+            // BOISSON
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            // RHUMS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_19));
             $manager->persist($item);
         }
 
@@ -777,32 +918,56 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
 
 
         $arr_rouge = [
-            $name5_82, $price5_82,
-            $name5_83, $price5_83,
-            $name5_84, $price5_84,
-            $name5_85, $price5_85,
-            $name5_86, $price5_86,
-            $name5_87, $price5_87,
-            $name5_88, $price5_88,
-            $name5_89, $price5_89,
-            $name5_90, $price5_90,
-            $name5_91, $price5_91,
-            $name5_92, $price5_92,
-            $name5_93, $price5_93,
-            $name5_94, $price5_94,
-            $name5_95, $price5_95,
-            $name5_96, $price5_96,
-            $name5_97, $price5_97,
-            $name5_98, $price5_98,
-            $name5_99, $price5_99,
-            $name5_100, $price5_100,
+            $name5_82,
+            $price5_82,
+            $name5_83,
+            $price5_83,
+            $name5_84,
+            $price5_84,
+            $name5_85,
+            $price5_85,
+            $name5_86,
+            $price5_86,
+            $name5_87,
+            $price5_87,
+            $name5_88,
+            $price5_88,
+            $name5_89,
+            $price5_89,
+            $name5_90,
+            $price5_90,
+            $name5_91,
+            $price5_91,
+            $name5_92,
+            $price5_92,
+            $name5_93,
+            $price5_93,
+            $name5_94,
+            $price5_94,
+            $name5_95,
+            $price5_95,
+            $name5_96,
+            $price5_96,
+            $name5_97,
+            $price5_97,
+            $name5_98,
+            $price5_98,
+            $name5_99,
+            $price5_99,
+            $name5_100,
+            $price5_100,
         ];
 
-        for($i = 0; $i < count($arr_rouge); $i += 2) {
+        for ($i = 0; $i < count($arr_rouge); $i += 2) {
             $item = new Item();
             $item->setName($arr_rouge[$i]);
             $item->setPrice($arr_rouge[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_22)); //VINS
+            // BOISSONS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            //VINS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_15));
+            // ROUGE
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_22));
             $manager->persist($item);
         }
 
@@ -826,20 +991,32 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price5_107 = 24.0;
 
         $arr_rose = [
-            $name5_101, $price5_101,
-            $name5_102, $price5_102,
-            $name5_103, $price5_103,
-            $name5_104, $price5_104,
-            $name5_105, $price5_105,
-            $name5_106, $price5_106,
-            $name5_107, $price5_107,
+            $name5_101,
+            $price5_101,
+            $name5_102,
+            $price5_102,
+            $name5_103,
+            $price5_103,
+            $name5_104,
+            $price5_104,
+            $name5_105,
+            $price5_105,
+            $name5_106,
+            $price5_106,
+            $name5_107,
+            $price5_107,
         ];
 
-        for($i = 0; $i < count($arr_rose); $i += 2) {
+        for ($i = 0; $i < count($arr_rose); $i += 2) {
             $item = new Item();
             $item->setName($arr_rose[$i]);
             $item->setPrice($arr_rose[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_25)); //VINS
+            // BOISSONS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            //VINS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_15));
+            // ROSE
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_25));
             $manager->persist($item);
         }
 
@@ -867,22 +1044,36 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price5_116 = 39.0;
 
         $arr_blancsec = [
-            $name5_108, $price5_108,
-            $name5_109, $price5_109,
-            $name5_110, $price5_110,
-            $name5_111, $price5_111,
-            $name5_112, $price5_112,
-            $name5_113, $price5_113,
-            $name5_114, $price5_114,
-            $name5_115, $price5_115,
-            $name5_116, $price5_116,
+            $name5_108,
+            $price5_108,
+            $name5_109,
+            $price5_109,
+            $name5_110,
+            $price5_110,
+            $name5_111,
+            $price5_111,
+            $name5_112,
+            $price5_112,
+            $name5_113,
+            $price5_113,
+            $name5_114,
+            $price5_114,
+            $name5_115,
+            $price5_115,
+            $name5_116,
+            $price5_116,
         ];
 
-        for($i = 0; $i < count($arr_blancsec); $i += 2) {
+        for ($i = 0; $i < count($arr_blancsec); $i += 2) {
             $item = new Item();
             $item->setName($arr_blancsec[$i]);
             $item->setPrice($arr_blancsec[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_24)); //VINS
+            // BOISSONS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            // VINS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_15));
+            // BLANCSEC
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_24));
             $manager->persist($item);
         }
 
@@ -898,15 +1089,23 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price5_119 = 22.0;
 
         $arr_blancmoelleux = [
-            $name5_117, $price5_117,
-            $name5_118, $price5_118,
-            $name5_119, $price5_119,
+            $name5_117,
+            $price5_117,
+            $name5_118,
+            $price5_118,
+            $name5_119,
+            $price5_119,
         ];
 
-        for($i = 0; $i < count($arr_blancmoelleux); $i += 2) {
+        for ($i = 0; $i < count($arr_blancmoelleux); $i += 2) {
             $item = new Item();
             $item->setName($arr_blancmoelleux[$i]);
             $item->setPrice($arr_blancmoelleux[$i + 1]);
+            // BOISSONS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            // VINS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_15));
+            // BLANCMOELLEUX
             $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_23)); //VINS
             $manager->persist($item);
         }
@@ -924,54 +1123,28 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $price5_123 = 25.0;
 
         $arr_champagne = [
-            $name5_120, $price5_120,
-            $name5_121, $price5_121,
-            $name5_122, $price5_122,
-            $name5_123, $price5_123,
+            $name5_120,
+            $price5_120,
+            $name5_121,
+            $price5_121,
+            $name5_122,
+            $price5_122,
+            $name5_123,
+            $price5_123,
         ];
 
-        for($i = 0; $i < count($arr_champagne); $i += 2) {
+        for ($i = 0; $i < count($arr_champagne); $i += 2) {
             $item = new Item();
             $item->setName($arr_champagne[$i]);
             $item->setPrice($arr_champagne[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_16)); //CHAMPAGNE
+            // BOISSONS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10));
+            // VINS
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_15));
+            // CHAMPAGNE
+            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_16));
             $manager->persist($item);
         }
-
-
-        // VINS
-        //--
-
-        $arr_vins = array_merge($arr_rouge, $arr_rose, $arr_blancsec, $arr_blancmoelleux, $arr_champagne);
-        $arr_boissons = array_merge(
-            $arr_whiskies,
-            $arr_aperitifs,
-            $arr_digestifs,
-            $arr_bieres,
-            $arr_rhums,
-            $arr_cocktail,
-            $arr_softs,
-            $arr_chaudes,
-            $arr_vins
-        );
-
-        for($i = 0; $i < count($arr_boissons); $i += 2) {
-            $item = new Item();
-            $item->setName($arr_boissons[$i]);
-            $item->setPrice($arr_boissons[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_10)); //BOISSONS
-            $manager->persist($item);
-        }
-
-        for($i = 0; $i < count($arr_vins); $i += 2) {
-            $item = new Item();
-            $item->setName($arr_vins[$i]);
-            $item->setPrice($arr_vins[$i + 1]);
-            $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_15)); //VINS
-            $manager->persist($item);
-        }
-
-
 
         $manager->flush();
     }
