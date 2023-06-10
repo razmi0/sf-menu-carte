@@ -629,7 +629,7 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
         $name5_63 = 'Petit crème'; // BOISSONS CHAUDES
         $price5_63 = 2.5;
 
-        $arr_boissonsChaudes = [
+        $arr_chaudes = [
             $name5_57, $price5_57,
             $name5_58, $price5_58,
             $name5_59, $price5_59,
@@ -639,10 +639,10 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
             $name5_63, $price5_63,
         ];
         
-        for($i = 0; $i < count($arr_boissonsChaudes); $i += 2) {
+        for($i = 0; $i < count($arr_chaudes); $i += 2) {
             $item = new Item();
-            $item->setName($arr_boissonsChaudes[$i]);
-            $item->setPrice($arr_boissonsChaudes[$i + 1]);
+            $item->setName($arr_chaudes[$i]);
+            $item->setPrice($arr_chaudes[$i + 1]);
             $item->addCategory($this->getReference(CategoryFixtures::CATEGORY_REFERENCE_21)); //BOISSONS CHAUDES
             $manager->persist($item);
         }
@@ -951,7 +951,7 @@ class ItemFixtures extends Fixture implements DependentFixtureInterface
             $arr_rhums,
             $arr_cocktail,
             $arr_softs,
-            $arr_boissonschaudes,
+            $arr_chaudes,
             $arr_vins
         );
 

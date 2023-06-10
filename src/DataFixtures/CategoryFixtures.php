@@ -9,14 +9,14 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 class CategoryFixtures extends Fixture
 {
     public const CATEGORY_REFERENCE_1 = 'ENTREE'; //
-    public const CATEGORY_REFERENCE_2 = 'PLAT';//
-    public const CATEGORY_REFERENCE_3 = 'DESSERT';//
-    public const CATEGORY_REFERENCE_4 = 'SUGGESTION';//
-    public const CATEGORY_REFERENCE_5 = 'GLACE';//
-    public const CATEGORY_REFERENCE_6 = 'INCONTOURNABLE';//
-    public const CATEGORY_REFERENCE_7 = 'INATTENDU';//
-    public const CATEGORY_REFERENCE_8 = 'INTERDITE';//
-    public const CATEGORY_REFERENCE_9 = 'SORBET';//
+    public const CATEGORY_REFERENCE_2 = 'PLAT'; //
+    public const CATEGORY_REFERENCE_3 = 'DESSERT'; //
+    public const CATEGORY_REFERENCE_4 = 'SUGGESTION'; //
+    public const CATEGORY_REFERENCE_5 = 'GLACE'; //
+    public const CATEGORY_REFERENCE_6 = 'INCONTOURNABLE'; //
+    public const CATEGORY_REFERENCE_7 = 'INATTENDU'; //
+    public const CATEGORY_REFERENCE_8 = 'INTERDITE'; //
+    public const CATEGORY_REFERENCE_9 = 'SORBET'; //
     public const CATEGORY_REFERENCE_10 = 'BOISSON'; //
     public const CATEGORY_REFERENCE_11 = 'COCKTAIL'; //
     public const CATEGORY_REFERENCE_12 = 'SANS ALCOOL'; //
@@ -36,13 +36,44 @@ class CategoryFixtures extends Fixture
     public const CATEGORY_REFERENCE_26 = 'APERITIF'; //
 
 
+
+
+    private $categoryNames = [
+        'Entrée',
+        'Plat',
+        'Dessert',
+        'Suggestion',
+        'Glace',
+        'Incontournable',
+        'Inattendu',
+        'Interdite',
+        'Sorbet',
+        'Boisson',
+        'Cocktail',
+        'Sans Alcool',
+        'Alcool',
+        'Bière',
+        'Vin',
+        'Champagne',
+        'Digestif',
+        'Whisky',
+        'Rhum',
+        'Soft',
+        'Boisson Chaude',
+        'Rouge',
+        'Blanc moelleux',
+        'Blanc sec',
+        'Rosé',
+        'Apéritif',
+    ];
+
     public function load(ObjectManager $manager): void
     {
-        $nbrOfCategories = 26;
-        for ($i = 1; $i <= $nbrOfCategories; $i++) {
+        foreach ($this->categoryNames as $index => $name) {
             $category = new Category();
-            $category->setName(${'CATEGORY_REFERENCE_' . $i});
-            $this->addReference(self::${'CATEGORY_REFERENCE_' . $i}, $category);
+            $category->setName($name);
+            $referenceConstant = constant('self::CATEGORY_REFERENCE_' . ($index + 1));
+            $this->addReference($referenceConstant, $category);
             $manager->persist($category);
         }
 
